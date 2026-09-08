@@ -6,6 +6,7 @@ _ROOT = str(Path(__file__).resolve().parent.parent)
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
+import time
 import threading
 from typing import Dict, Any, Optional
 import cv2
@@ -13,7 +14,7 @@ import numpy as np
 from PIL import Image
 import customtkinter as ctk
 
-from config import EXERCISE_CONFIGS
+from config import EXERCISE_CONFIGS, UI_TELEMETRY_THROTTLE_SEC
 from backend import WorkoutEngine
 from core.exercise_registry import is_active_ai_supported
 from core.rep_analysis import analyze_repetition
@@ -108,6 +109,10 @@ class AIWorkoutUI(ctk.CTk):
         self.nutrition_dashboard: Optional[NutritionDashboardDialog] = None
         self.auth_dialog: Optional[AuthDialog] = None
         self.gym_dialog: Optional[GymLocatorDialog] = None
+
+        # Performance & Telemetry throttling state (prevents Tkinter GUI backlog)
+        self._ui_update_in_progress: bool = False
+        self._last_telemetry_time: float = 0.0
 
         # Pre-warm device location and gym cache asynchronously for 0 ms opening
         threading.Thread(target=warm_gym_locator_cache, daemon=True).start()
@@ -759,13 +764,18 @@ class AIWorkoutUI(ctk.CTk):
         feedback_color: str,
         stats: Dict[str, Any]
     ):
-        """Converts frame to CTkImage in background thread and schedules UI update."""
-        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        """Converts frame to CTkImage in background thread with backlog protection."""
+        # 1. Backlog Protection: drop frame if GUI thread is still rendering previous frame
+        if self._ui_update_in_progress:
+            return
+
+        # 2. Fast vectorized C++ resize in OpenCV (1 ms vs 6 ms in PIL)
+        resized = cv2.resize(frame, (720, 480), interpolation=cv2.INTER_LINEAR)
+        img = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)
         pil_img = Image.fromarray(img)
-        
-        # Scale to crisp viewport dimensions
-        pil_img = pil_img.resize((720, 480), Image.Resampling.BILINEAR)
         ctk_img = ctk.CTkImage(light_image=pil_img, dark_image=pil_img, size=(720, 480))
+
+        self._ui_update_in_progress = True
 
         # Schedule thread-safe main loop update
         self.after(
@@ -788,106 +798,29 @@ class AIWorkoutUI(ctk.CTk):
         feedback_color: str,
         stats: Optional[Dict[str, Any]] = None
     ):
-        """Applies visual updates strictly on the Tkinter main thread."""
-        self.sidebar.update_stats(reps, acc)
-        self.viewport.update_frame(ctk_img)
-        self.viewport.update_feedback(feedback_msg, feedback_color, self.engine.current_exercise)
+        """Applies visual updates strictly on the Tkinter main thread with throttled telemetry."""
+        try:
+            # 1. High-framerate video and primary HUD updates (every processed frame)
+            self.sidebar.update_stats(reps, acc)
+            self.viewport.update_frame(ctk_img)
+            self.viewport.update_feedback(feedback_msg, feedback_color, self.engine.current_exercise)
 
-        # ----------------------------------------------------------------------
-        # Phase 6: Real-Time Motion Intelligence Pipeline
-        # ----------------------------------------------------------------------
-        phase_engine = get_movement_phase_engine()
-        phase_data = phase_engine.update(
-            self.engine.current_exercise,
-            getattr(self.engine, "current_angle", None),
-            feedback_msg,
-            stats
-        )
-        self._last_phase_data = phase_data
+            # Update SIH Demo Window video frame if open
+            if self.demo_window:
+                self.demo_window.update_frame(ctk_img)
 
-        stab_engine = get_movement_stability_engine()
-        stability_data = stab_engine.update(
-            self.engine.current_exercise,
-            getattr(self.engine, "current_angle", None),
-            feedback_msg,
-            stats
-        )
-        self._last_stability_data = stability_data
-
-        fatigue_data = estimate_form_fatigue(
-            self.engine.current_exercise,
-            stability_data["stability_score"],
-            stats
-        )
-        self._last_fatigue_data = fatigue_data
-
-        risk_data = evaluate_movement_risk(
-            self.engine.current_exercise,
-            stability_data["stability_score"],
-            fatigue_data["fatigue_level"],
-            stats
-        )
-        self._last_risk_data = risk_data
-
-        coach_data = get_adaptive_coaching(
-            self.engine.current_exercise,
-            stability_data["stability_score"],
-            fatigue_data["fatigue_level"],
-            risk_data["risk_level"],
-            feedback_msg,
-            stats
-        )
-        self._last_coach_data = coach_data
-
-        recovery_data = get_recovery_recommendations(
-            fatigue_data["fatigue_level"],
-            stability_data["stability_score"],
-            total_reps=reps
-        )
-        self._last_recovery_data = recovery_data
-
-        # Update Form Guide Phase 6 cards
-        if self.form_guide_visible:
-            self.form_guide.update_movement_phase(phase_data)
-            self.form_guide.update_movement_intelligence(
-                stability_data, fatigue_data, risk_data, coach_data, recovery_data
-            )
-
-        # Update SIH Demo Window if open
-        if self.demo_window:
-            self.demo_window.update_frame(ctk_img)
-            self.demo_window.update_telemetry(
-                reps, acc, feedback_msg, feedback_color,
-                phase_data, stability_data, fatigue_data, risk_data, coach_data
-            )
-
-        # Update Live Performance Analytics and Rep-by-Rep Intelligence
-        self.analytics.update_status_indicators(stability_data, risk_data, fatigue_data)
-
-        # Synchronize Analytics Hub if open
-        if self.analytics_hub and self.analytics_hub.winfo_exists():
-            self.analytics_hub.sync_telemetry(
-                stats=stats if stats else {"clean_reps": reps, "accuracy": acc, "total_attempts": reps},
-                stability_data=stability_data,
-                fatigue_data=fatigue_data,
-                risk_data=risk_data,
-                coach_data=coach_data,
-                recovery_data=recovery_data
-            )
-
-        if stats:
-            self.analytics.update_analytics(stats, self.engine.current_exercise)
-
-            curr_clean = stats.get("clean_reps", reps)
-            curr_total = stats.get("total_attempts", reps)
-            curr_warn = stats.get("posture_warnings", 0)
-            curr_sitting = stats.get("failed_sitting", 0)
-            curr_depth = stats.get("failed_depth", 0)
+            curr_clean = stats.get("clean_reps", reps) if stats else reps
+            curr_total = stats.get("total_attempts", reps) if stats else reps
+            curr_warn = stats.get("posture_warnings", 0) if stats else 0
+            curr_sitting = stats.get("failed_sitting", 0) if stats else 0
+            curr_depth = stats.get("failed_depth", 0) if stats else 0
 
             # Detect intra-rep posture warning
+            warning_triggered = False
             if curr_warn > self._last_posture_warnings:
                 self._posture_fault_in_active_rep = True
                 self._last_posture_warnings = curr_warn
+                warning_triggered = True
 
             # Detect repetition completion
             rep_completed = False
@@ -905,7 +838,106 @@ class AIWorkoutUI(ctk.CTk):
                 rep_completed = True
                 rep_result = "CLEAN"
 
-            if rep_completed:
+            # 2. Telemetry Throttling: Run heavy motion intelligence & reconfigure cards at 4 Hz (250ms)
+            # OR immediately if a rep completes or a warning is triggered
+            now = time.time()
+            time_due = (now - self._last_telemetry_time) >= UI_TELEMETRY_THROTTLE_SEC
+            should_update_telemetry = rep_completed or warning_triggered or time_due
+
+            if should_update_telemetry:
+                self._last_telemetry_time = now
+
+                # Motion Intelligence Calculations
+                phase_engine = get_movement_phase_engine()
+                phase_data = phase_engine.update(
+                    self.engine.current_exercise,
+                    getattr(self.engine, "current_angle", None),
+                    feedback_msg,
+                    stats
+                )
+                self._last_phase_data = phase_data
+
+                stab_engine = get_movement_stability_engine()
+                stability_data = stab_engine.update(
+                    self.engine.current_exercise,
+                    getattr(self.engine, "current_angle", None),
+                    feedback_msg,
+                    stats
+                )
+                self._last_stability_data = stability_data
+
+                fatigue_data = estimate_form_fatigue(
+                    self.engine.current_exercise,
+                    stability_data["stability_score"],
+                    stats
+                )
+                self._last_fatigue_data = fatigue_data
+
+                risk_data = evaluate_movement_risk(
+                    self.engine.current_exercise,
+                    stability_data["stability_score"],
+                    fatigue_data["fatigue_level"],
+                    stats
+                )
+                self._last_risk_data = risk_data
+
+                coach_data = get_adaptive_coaching(
+                    self.engine.current_exercise,
+                    stability_data["stability_score"],
+                    fatigue_data["fatigue_level"],
+                    risk_data["risk_level"],
+                    feedback_msg,
+                    stats
+                )
+                self._last_coach_data = coach_data
+
+                recovery_data = get_recovery_recommendations(
+                    fatigue_data["fatigue_level"],
+                    stability_data["stability_score"],
+                    total_reps=reps
+                )
+                self._last_recovery_data = recovery_data
+
+                # Update Form Guide Phase 6 cards
+                if self.form_guide_visible:
+                    self.form_guide.update_movement_phase(phase_data)
+                    self.form_guide.update_movement_intelligence(
+                        stability_data, fatigue_data, risk_data, coach_data, recovery_data
+                    )
+
+                # Update SIH Demo Window telemetry if open
+                if self.demo_window:
+                    self.demo_window.update_telemetry(
+                        reps, acc, feedback_msg, feedback_color,
+                        phase_data, stability_data, fatigue_data, risk_data, coach_data
+                    )
+
+                # Update Live Performance Analytics and Rep-by-Rep Intelligence
+                self.analytics.update_status_indicators(stability_data, risk_data, fatigue_data)
+
+                # Synchronize Analytics Hub if open
+                if self.analytics_hub and self.analytics_hub.winfo_exists():
+                    self.analytics_hub.sync_telemetry(
+                        stats=stats if stats else {"clean_reps": reps, "accuracy": acc, "total_attempts": reps},
+                        stability_data=stability_data,
+                        fatigue_data=fatigue_data,
+                        risk_data=risk_data,
+                        coach_data=coach_data,
+                        recovery_data=recovery_data
+                    )
+
+                if stats:
+                    self.analytics.update_analytics(stats, self.engine.current_exercise)
+                else:
+                    self.analytics.update_analytics({"clean_reps": reps, "accuracy": acc, "total_attempts": reps}, self.engine.current_exercise)
+
+                # Synchronize Body Focus avatar, Smart Coach, Form Comparison, and checklist highlight
+                if self.form_guide_visible and feedback_msg:
+                    self.form_guide.update_ai_coaching(feedback_msg, feedback_color)
+                    self.form_guide.update_form_comparison(self.engine.current_exercise, feedback_msg, feedback_color)
+
+            # Rep completion processing (always runs immediately when rep completes)
+            if rep_completed and stats:
                 rep_num = curr_total if curr_total > 0 else curr_clean
                 rep_analysis = analyze_repetition(
                     exercise_name=self.engine.current_exercise,
@@ -934,19 +966,21 @@ class AIWorkoutUI(ctk.CTk):
                         self.engine.current_exercise
                     )
 
+                # Synchronize SIH Demo Window
+                if self.demo_window:
+                    self.demo_window.add_rep(rep_analysis)
+
                 # Reset intra-rep tracking
                 self._last_clean_reps = curr_clean
                 self._last_total_attempts = curr_total
                 self._last_sitting_fails = curr_sitting
                 self._last_depth_fails = curr_depth
                 self._posture_fault_in_active_rep = False
-        else:
-            self.analytics.update_analytics({"clean_reps": reps, "accuracy": acc, "total_attempts": reps}, self.engine.current_exercise)
 
-        # Synchronize Body Focus avatar, Smart Coach, Form Comparison, and checklist highlight
-        if self.form_guide_visible and feedback_msg:
-            self.form_guide.update_ai_coaching(feedback_msg, feedback_color)
-            self.form_guide.update_form_comparison(self.engine.current_exercise, feedback_msg, feedback_color)
+        except Exception as e:
+            print(f"[APP UI ERROR] {e}")
+        finally:
+            self._ui_update_in_progress = False
 
     def on_close(self):
         """Tears down backend engine and closes window safely."""

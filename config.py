@@ -49,5 +49,10 @@ DEFAULT_CAMERA_WIDTH = 640
 DEFAULT_CAMERA_HEIGHT = 480
 DEFAULT_CAMERA_BUFFER_SIZE = 1
 
-# Pose Detection Model
+# Pose Detection Model & Inference Performance
 POSE_MODEL_PATH = "yolov8n-pose.pt"
+POSE_MODEL_IMGSZ = 320               # 320x320 optimal for real-time CPU performance (3x faster than 640)
+
+# UI Performance & Telemetry Throttling
+UI_TELEMETRY_THROTTLE_SEC = 0.25     # 4 Hz refresh for heavy text/guidance cards to eliminate GUI lag
+

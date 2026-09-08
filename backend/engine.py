@@ -11,6 +11,7 @@ import threading
 from typing import Callable, Optional, Dict, Any, Tuple
 import cv2
 import numpy as np
+import torch
 from ultralytics import YOLO
 
 from config import (
@@ -19,7 +20,8 @@ from config import (
     COUNTDOWN_SECONDS,
     GESTURE_HOLD_THRESHOLD,
     PROFILE_CONF_THRESHOLD,
-    POSE_MODEL_PATH
+    POSE_MODEL_PATH,
+    POSE_MODEL_IMGSZ
 )
 from core import (
     LowPassFilter,
@@ -304,7 +306,8 @@ class WorkoutEngine:
                 continue
 
             current_time = time.time()
-            results = self.model(frame, verbose=False)
+            with torch.inference_mode():
+                results = self.model(frame, imgsz=POSE_MODEL_IMGSZ, verbose=False)
             annotated_frame = frame.copy()
             feedback_msg = "Tracking posture..."
             feedback_color = "#00FFC8"

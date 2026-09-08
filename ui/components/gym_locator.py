@@ -386,7 +386,11 @@ class GymLocatorDialog(ctk.CTkToplevel):
 
         def worker():
             gyms = fetch_nearby_gyms(lat, lon, radius_km=rad, limit=30, use_network=True)
-            self.after(0, lambda: self._on_gyms_fetched(gyms, is_partial=False))
+            try:
+                if self.winfo_exists():
+                    self.after(0, lambda: self._on_gyms_fetched(gyms, is_partial=False))
+            except Exception:
+                pass
 
         t = threading.Thread(target=worker, daemon=True)
         t.start()
@@ -647,7 +651,11 @@ class GymLocatorDialog(ctk.CTkToplevel):
                 self.current_location = loc
                 self.loc_label.configure(text=self._format_location_string())
                 self._trigger_fetch_gyms()
-            self.after(0, update_ui)
+            try:
+                if self.winfo_exists():
+                    self.after(0, update_ui)
+            except Exception:
+                pass
 
         threading.Thread(target=worker, daemon=True).start()
 
@@ -671,7 +679,11 @@ class GymLocatorDialog(ctk.CTkToplevel):
                     # If geocoding failed, launch Google Maps with the query directly
                     url = get_google_maps_search_url(query=f"gyms in {query}")
                     open_url_in_browser(url)
-            self.after(0, update_ui)
+            try:
+                if self.winfo_exists():
+                    self.after(0, update_ui)
+            except Exception:
+                pass
 
         threading.Thread(target=worker, daemon=True).start()
 
@@ -690,7 +702,11 @@ class GymLocatorDialog(ctk.CTkToplevel):
                         self.current_location = fresh_loc
                         self.loc_label.configure(text=self._format_location_string())
                         self._trigger_fetch_gyms()
-                    self.after(0, update_ui)
+                    try:
+                        if self.winfo_exists():
+                            self.after(0, update_ui)
+                    except Exception:
+                        pass
         threading.Thread(target=worker, daemon=True).start()
 
     def _set_quick_area(self, area_name: str):
