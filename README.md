@@ -1,3 +1,13 @@
+---
+title: TruForm AI
+emoji: 🏋️
+colorFrom: blue
+colorTo: green
+sdk: gradio
+app_file: hf_app.py
+python_version: "3.11"
+---
+
 # 🏋️ TruForm AI
 
 ## AI-Powered Real-Time Exercise Form & Biomechanics Analysis Platform
