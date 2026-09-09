@@ -1,4 +1,4 @@
-"""TRUFORM AI - Workout History Component.
+"""REPRIGHT AI - Workout History Component.
 
 Renders responsive workout session debrief cards with multidimensional biomechanical indicators,
 exercise filtering, and rep-by-rep inspection capabilities.
@@ -19,7 +19,7 @@ class SessionDetailDialog(ctk.CTkToplevel):
         super().__init__(master)
         self.session = session
 
-        self.title(f"TRUFORM AI — Session #{session.id} Telemetry Breakdown")
+        self.title(f"REPRIGHT AI — Session #{session.id} Telemetry Breakdown")
         self.geometry("720x580")
         self.minsize(640, 480)
         self.configure(fg_color=theme.COLOR_BG_DARK)

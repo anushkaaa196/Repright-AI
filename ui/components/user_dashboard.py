@@ -1,4 +1,4 @@
-"""TRUFORM AI - Athlete Performance & History Dashboard.
+"""REPRIGHT AI - Athlete Performance & History Dashboard.
 
 Comprehensive biometric and performance telemetry intelligence dashboard.
 Displays lifetime training volume, quality metrics, exercise distribution, and workout archives.
@@ -15,7 +15,7 @@ from ui.components.user_profile import UserProfileDialog
 
 
 class UserDashboardDialog(ctk.CTkToplevel):
-    """Presentation-grade athlete dashboard modal for TruForm AI."""
+    """Presentation-grade athlete dashboard modal for REPRIGHT AI."""
 
     def __init__(
         self,
@@ -29,7 +29,7 @@ class UserDashboardDialog(ctk.CTkToplevel):
         self.on_close_callback = on_close_callback
         self.workout_repo = workout_repo or WorkoutRepository()
 
-        self.title("TRUFORM AI — Athlete Intelligence Dashboard")
+        self.title("REPRIGHT AI — Athlete Intelligence Dashboard")
         self.geometry("980x700")
         self.minsize(860, 600)
         self.configure(fg_color=theme.COLOR_BG_DARK)
@@ -120,8 +120,8 @@ class UserDashboardDialog(ctk.CTkToplevel):
         left = ctk.CTkFrame(inner, fg_color="transparent")
         left.pack(side="left")
 
-        user_name = self.user.name if self.user else "TruForm Athlete"
-        user_email = self.user.email if self.user else "guest@truform.ai"
+        user_name = self.user.name if self.user else "RepRight Athlete"
+        user_email = self.user.email if self.user else "guest@repright.ai"
         goal = self.user.fitness_goal if self.user else "STRENGTH"
 
         # Badge

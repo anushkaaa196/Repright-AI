@@ -1,4 +1,4 @@
-"""TRUFORM AI - Nutrition Repository.
+"""REPRIGHT AI - Nutrition Repository.
 
 Data Access Object for Athlete Nutrition Profiles, Macro Plans, and Daily Hydration Logs.
 Maintains strict user-level data isolation and transaction safety.

@@ -1,4 +1,4 @@
-"""Phase 5 Comprehensive Verification & Test Suite for TRUFORM AI.
+"""Phase 5 Comprehensive Verification & Test Suite for REPRIGHT AI.
 
 Validates:
 1. Rep-by-rep movement analysis engine & 5-dimension scoring
@@ -298,7 +298,7 @@ def test_ui_components():
 
 if __name__ == "__main__":
     print("==================================================")
-    print("  TRUFORM AI — PHASE 5 VERIFICATION SUITE")
+    print("  REPRIGHT AI — PHASE 5 VERIFICATION SUITE")
     print("==================================================")
     test_rep_analysis()
     test_rep_history()

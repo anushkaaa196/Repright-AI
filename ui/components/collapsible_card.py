@@ -1,4 +1,4 @@
-"""Collapsible Card Component for TRUFORM AI.
+"""Collapsible Card Component for REPRIGHT AI.
 
 Provides a clean, modular collapsible container to keep secondary dashboards and details
 compact until the user explicitly expands them.

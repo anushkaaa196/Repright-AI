@@ -1,4 +1,4 @@
-"""Progress Intelligence & Session-to-Session Comparison Engine for TRUFORM AI.
+"""Progress Intelligence & Session-to-Session Comparison Engine for REPRIGHT AI.
 
 Maintains multi-session runtime progress intelligence, tracking form score improvements,
 consistency progressions, and recurring biomechanical focus areas across workouts.

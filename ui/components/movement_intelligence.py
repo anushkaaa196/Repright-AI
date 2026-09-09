@@ -1,4 +1,4 @@
-"""AI Movement Intelligence Dashboard Component for TRUFORM AI.
+"""AI Movement Intelligence Dashboard Component for REPRIGHT AI.
 
 Displays the 5 primary real-time motion intelligence metrics:
 1. Movement Stability
@@ -170,7 +170,7 @@ class MovementIntelligenceDialog(ctk.CTkToplevel):
         recovery_data: Optional[Dict[str, Any]] = None
     ):
         super().__init__(parent)
-        self.title(f"TRUFORM AI — Motion Intelligence Debrief ({exercise_name})")
+        self.title(f"REPRIGHT AI — Motion Intelligence Debrief ({exercise_name})")
         self.geometry("640x620")
         self.configure(fg_color=theme.COLOR_BG)
         self.transient(parent)

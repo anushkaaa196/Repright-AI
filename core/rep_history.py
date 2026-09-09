@@ -1,4 +1,4 @@
-"""In-Memory Repetition History Tracker for TRUFORM AI.
+"""In-Memory Repetition History Tracker for REPRIGHT AI.
 
 Stores completed repetition analyses for the active session, calculates statistical
 consistency, identifies best and weakest reps, and aggregates multi-dimensional quality metrics.

@@ -1,4 +1,4 @@
-"""TRUFORM AI - Nutrition Service.
+"""REPRIGHT AI - Nutrition Service.
 
 High-level business logic orchestrating athletic dietary calculations,
 profile management, macro balance, hydration logs, and post-workout nutrition insights.

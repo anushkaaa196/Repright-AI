@@ -1,4 +1,4 @@
-"""TRUFORM AI Database Layer.
+"""REPRIGHT AI Database Layer.
 
 Provides persistent SQLite storage for user authentication, athlete profiles,
 workout session debriefs, and rep-by-rep biomechanical telemetry.

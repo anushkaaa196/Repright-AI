@@ -1,4 +1,4 @@
-"""Automated Verification Suite for TRUFORM AI UI Controls Layout Fix.
+"""Automated Verification Suite for REPRIGHT AI UI Controls Layout Fix.
 
 Validates all 8 required test cases:
 TEST 1: Verify SidebarFrame contains all required controls (START, STOP, EXPORT, RESET).
@@ -34,7 +34,7 @@ from ui.components.demo_mode import SIHDemoWindow
 
 def run_tests():
     print("==================================================")
-    print("  TRUFORM AI — UI CONTROLS VERIFICATION SUITE")
+    print("  REPRIGHT AI — UI CONTROLS VERIFICATION SUITE")
     print("==================================================")
 
     root = ctk.CTk()

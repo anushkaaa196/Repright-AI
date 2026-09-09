@@ -1,4 +1,4 @@
-"""TRUFORM AI - Workout Repository.
+"""REPRIGHT AI - Workout Repository.
 
 Data Access Object for Workout Sessions, Biomechanical Repetition Telemetry,
 and Aggregate Athlete Analytics.

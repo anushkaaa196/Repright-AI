@@ -1,4 +1,4 @@
-"""TRUFORM AI - Athlete Authentication Screen.
+"""REPRIGHT AI - Athlete Authentication Screen.
 
 Hosts the Login and Register views with seamless switching, modern Midnight Navy & Deep Teal styling,
 and instant Guest Mode access for Smart India Hackathon demonstrations.
@@ -58,7 +58,7 @@ class LoginFrame(ctk.CTkFrame):
 
         title = ctk.CTkLabel(
             header_frame,
-            text="Welcome to TruForm AI",
+            text="Welcome to REPRIGHT AI",
             font=ctk.CTkFont(size=theme.FONT_SECTION_HEADER[1] + 6, weight="bold"),
             text_color=theme.COLOR_TEXT_PRIMARY
         )
@@ -230,14 +230,14 @@ class LoginFrame(ctk.CTkFrame):
 
 
 class AuthWindow(ctk.CTk):
-    """Standalone launcher window for TruForm AI user authentication."""
+    """Standalone launcher window for REPRIGHT AI user authentication."""
 
     def __init__(self, on_authenticated: Optional[Callable[[User], None]] = None):
         super().__init__()
         self.on_authenticated = on_authenticated
 
         theme.setup_theme()
-        self.title("TRUFORM AI — Athlete Authentication")
+        self.title("REPRIGHT AI — Athlete Authentication")
         self.geometry("480x640")
         self.minsize(440, 580)
         self.configure(fg_color=theme.COLOR_BG_DARK)
@@ -301,7 +301,7 @@ class AuthDialog(ctk.CTkToplevel):
         super().__init__(master)
         self.on_authenticated = on_authenticated
 
-        self.title("TRUFORM AI — Switch Athlete Profile")
+        self.title("REPRIGHT AI — Switch Athlete Profile")
         self.geometry("480x640")
         self.configure(fg_color=theme.COLOR_BG_DARK)
 

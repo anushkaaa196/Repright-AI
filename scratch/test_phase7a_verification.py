@@ -1,4 +1,4 @@
-"""Comprehensive Automated Verification Suite for TRUFORM AI Phase 7A.
+"""Comprehensive Automated Verification Suite for REPRIGHT AI Phase 7A.
 
 Validates all 18 required Phase 7A implementation criteria:
 1. DB Auto-Initialization: Database tables, constraints, and indexes auto-create cleanly.
@@ -52,7 +52,7 @@ from core.exercise_registry import EXERCISE_REGISTRY
 
 def run_phase7a_verification():
     print("=" * 70)
-    print("  TRUFORM AI — PHASE 7A AUTOMATED VERIFICATION SUITE")
+    print("  REPRIGHT AI — PHASE 7A AUTOMATED VERIFICATION SUITE")
     print("  User Authentication, SQLite Persistence, Debrief History & Dashboard")
     print("=" * 70)
 

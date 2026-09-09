@@ -1,7 +1,7 @@
-"""TRUFORM AI - Database Manager.
+"""REPRIGHT AI - Database Manager.
 
 Manages SQLite database connection lifecycle, auto-initialization, schema definitions,
-and connection pooling for TruForm AI's persistent storage.
+and connection pooling for REPRIGHT AI's persistent storage.
 """
 
 import os

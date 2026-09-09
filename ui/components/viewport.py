@@ -14,7 +14,7 @@ class ViewportFrame(ctk.CTkFrame):
     """Main video viewing area with live posture analysis feed and dynamic AI coach console."""
 
     STANDBY_MESSAGE = (
-        "TRUFORM BIOMECHANICAL VISION SYSTEM\n\n"
+        "REPRIGHT BIOMECHANICAL VISION SYSTEM\n\n"
         "[ OPTICAL CAPTURE STANDBY ]\n\n"
         "• Position subject with full kinetic chain visible in frame\n"
         "• Maintain 6 to 8 feet distance from the optical sensor\n"

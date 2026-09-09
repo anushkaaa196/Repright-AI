@@ -1,4 +1,4 @@
-"""Movement Phase Analysis Engine for TRUFORM AI.
+"""Movement Phase Analysis Engine for REPRIGHT AI.
 
 Performs deterministic, real-time biomechanical phase detection across exercise repetitions.
 Analyzes joint angles, movement direction, angle velocity, and telemetry states.

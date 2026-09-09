@@ -1,18 +1,8 @@
----
-title: TruForm AI
-emoji: 🏋️
-colorFrom: blue
-colorTo: green
-sdk: gradio
-app_file: hf_app.py
-python_version: "3.11"
----
-
-# 🏋️ TruForm AI
+# 🏋️ REPRIGHT AI
 
 ## AI-Powered Real-Time Exercise Form & Biomechanics Analysis Platform
 
-**TruForm AI** is an AI-powered real-time exercise form analysis system designed to help users perform exercises with correct posture and movement techniques.
+**REPRIGHT AI** is an AI-powered real-time exercise form analysis system designed to help users perform exercises with correct posture and movement techniques.
 
 The system uses **Computer Vision, Human Pose Estimation, and Artificial Intelligence** to analyze body movements in real time and identify potential posture and form-related issues during exercise.
 
@@ -29,13 +19,13 @@ Incorrect exercise posture and movement can lead to:
 
 Professional trainers can continuously monitor exercise form, but such guidance may not always be accessible or affordable.
 
-**TruForm AI addresses this challenge by providing an intelligent and accessible system for automated exercise form analysis.**
+**REPRIGHT AI addresses this challenge by providing an intelligent and accessible system for automated exercise form analysis.**
 
 ---
 
 ## 💡 Solution
 
-TruForm AI uses an AI-driven approach to analyze human body movements through a camera.
+REPRIGHT AI uses an AI-driven approach to analyze human body movements through a camera.
 
 The system:
 
@@ -127,7 +117,7 @@ The system:
 # 📁 Project Structure
 
 ```text
-TruForm-AI/
+RepRight-AI/
 │
 ├── assets/
 │   └── exercises/          # Exercise-related assets
@@ -218,7 +208,7 @@ The project uses the following major dependencies:
 
 ---
 
-# ▶️ Running TruForm AI
+# ▶️ Running REPRIGHT AI
 
 After installing all dependencies, run:
 
@@ -226,19 +216,19 @@ After installing all dependencies, run:
 python main.py
 ```
 
-The application will launch the **TruForm AI user interface**.
+The application will launch the **REPRIGHT AI user interface**.
 
 Make sure your computer has a working **webcam/camera**, as the system performs real-time exercise and posture analysis.
 
 ---
 
-# 🔄 How TruForm AI Works
+# 🔄 How REPRIGHT AI Works
 
 ```text
 START
   │
   ▼
-Launch TruForm AI
+Launch REPRIGHT AI
   │
   ▼
 Select / Start Exercise Analysis
@@ -276,7 +266,7 @@ Feedback       & Correction Feedback
 
 # 🎯 Applications
 
-TruForm AI can potentially be used in:
+REPRIGHT AI can potentially be used in:
 
 * 🏋️ Fitness Training
 * 🏠 Home Workouts
@@ -290,7 +280,7 @@ TruForm AI can potentially be used in:
 
 # 🔮 Future Enhancements
 
-Future versions of TruForm AI may include:
+Future versions of REPRIGHT AI may include:
 
 * 📊 Exercise performance scoring
 * 🔊 Voice-based real-time feedback
@@ -306,7 +296,7 @@ Future versions of TruForm AI may include:
 
 # 🏆 Innovation
 
-TruForm AI combines:
+REPRIGHT AI combines:
 
 > **Artificial Intelligence + Computer Vision + Human Pose Estimation + Biomechanics Analysis**
 
@@ -327,7 +317,7 @@ The goal is to make exercise guidance more **accessible, intelligent, and scalab
 
 # ⚠️ Important Note
 
-TruForm AI is designed as an **AI-assisted exercise form analysis system**.
+REPRIGHT AI is designed as an **AI-assisted exercise form analysis system**.
 
 It should not be considered a replacement for professional medical advice, diagnosis, physiotherapy, or certified personal training.
 
@@ -351,7 +341,7 @@ To contribute:
 
 ## Smart India Hackathon (SIH)
 
-**TruForm AI — Intelligent Exercise Form & Biomechanics Analysis Platform**
+**REPRIGHT AI — Intelligent Exercise Form & Biomechanics Analysis Platform**
 
 ---
 
@@ -364,4 +354,4 @@ https://github.com/anushkaaa196/TruForm-AI
 
 ## ⭐ If you find this project interesting, consider giving the repository a star!
 
-**TruForm AI — Train Smarter. Move Better. Stay Safe. 🏋️🤖**
+**REPRIGHT AI — Train Smarter. Move Better. Stay Safe. 🏋️🤖**

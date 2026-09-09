@@ -1,4 +1,4 @@
-"""Movement Stability Intelligence Engine for TRUFORM AI.
+"""Movement Stability Intelligence Engine for REPRIGHT AI.
 
 Performs deterministic, rolling-window stability analysis of exercise movement.
 Analyzes joint angle velocity jitter, sudden directional accelerations,

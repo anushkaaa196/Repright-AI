@@ -1,4 +1,4 @@
-"""TRUFORM AI - Authentication Service.
+"""REPRIGHT AI - Authentication Service.
 
 Handles secure password hashing using PBKDF2-HMAC-SHA256, user registration,
 credential validation, profile updating, and session authorization.

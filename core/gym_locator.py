@@ -113,7 +113,7 @@ def get_device_location(force_refresh: bool = False, allow_ip_override: bool = F
             _LOCATION_CACHE = cached
             return dict(cached)
 
-    headers = {"User-Agent": "TruFormAI/1.0 (Athletic Motion Intelligence)"}
+    headers = {"User-Agent": "RepRightAI/1.0 (Athletic Motion Intelligence)"}
 
     def _query_ip_api():
         req = urllib.request.Request(
@@ -598,7 +598,7 @@ def geocode_location(query: str) -> Optional[Dict[str, Any]]:
             _GEOCODE_CACHE[norm_key] = res
             return res
 
-    headers = {"User-Agent": "TruFormAI/1.0 (Athletic Motion Intelligence)"}
+    headers = {"User-Agent": "RepRightAI/1.0 (Athletic Motion Intelligence)"}
 
     # 3. Nominatim with India country priority
     search_queries = [
@@ -711,7 +711,7 @@ out center {limit};
     ]
 
     headers = {
-        "User-Agent": "TruFormAI/1.0 (Athletic Motion Intelligence)",
+        "User-Agent": "RepRightAI/1.0 (Athletic Motion Intelligence)",
         "Content-Type": "application/x-www-form-urlencoded"
     }
 

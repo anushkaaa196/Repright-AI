@@ -1,4 +1,4 @@
-"""Theme Compatibility and Static Audit Suite for TRUFORM AI.
+"""Theme Compatibility and Static Audit Suite for REPRIGHT AI.
 
 Scans the entire codebase using AST parsing to verify that every `theme.<ATTR>`
 reference corresponds to a valid, defined attribute inside `ui.theme`.
@@ -19,7 +19,7 @@ import ui.theme as theme
 
 def test_theme_compatibility():
     print("=" * 65)
-    print("  TRUFORM AI — THEME COMPATIBILITY & STATIC AUDIT SUITE")
+    print("  REPRIGHT AI — THEME COMPATIBILITY & STATIC AUDIT SUITE")
     print("=" * 65)
 
     theme_attrs = set(dir(theme))

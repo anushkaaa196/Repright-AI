@@ -1,4 +1,4 @@
-"""TRUFORM AI - Nutrition & Diet Intelligence Package.
+"""REPRIGHT AI - Nutrition & Diet Intelligence Package.
 
 Provides personalized caloric, macronutrient, Indian meal planning,
 hydration tracking, and workout recovery nutrition algorithms.

@@ -1,4 +1,4 @@
-"""TRUFORM AI - Database Models.
+"""REPRIGHT AI - Database Models.
 
 Dataclass representations for Users, Workout Sessions, and Repetition Records.
 """
@@ -10,7 +10,7 @@ import sqlite3
 
 @dataclass
 class User:
-    """Represents a registered TruForm AI athlete."""
+    """Represents a registered REPRIGHT AI athlete."""
     id: int
     name: str
     email: str

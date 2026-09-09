@@ -1,4 +1,4 @@
-"""Rep-by-Rep Movement Analysis Engine for TRUFORM AI.
+"""Rep-by-Rep Movement Analysis Engine for REPRIGHT AI.
 
 Captures, evaluates, and scores individual completed repetitions across 5 core
 biomechanical dimensions based strictly on verified telemetry and posture events.

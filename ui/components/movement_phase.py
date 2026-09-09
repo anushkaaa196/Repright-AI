@@ -1,4 +1,4 @@
-"""Movement Phase Visualization Component for TRUFORM AI.
+"""Movement Phase Visualization Component for REPRIGHT AI.
 
 Displays active biomechanical movement stages, percentage progression,
 and targeted real-time phase coaching cues.

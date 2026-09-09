@@ -1,4 +1,4 @@
-"""Live Rep-by-Rep Performance Timeline Component for TRUFORM AI.
+"""Live Rep-by-Rep Performance Timeline Component for REPRIGHT AI.
 
 Displays a horizontal scrollable strip of individual completed repetition quality cards,
 color-coded by biomechanical quality score with instant status pills and fault indicators.

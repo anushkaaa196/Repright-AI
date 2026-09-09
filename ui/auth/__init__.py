@@ -1,4 +1,4 @@
-"""TRUFORM AI Authentication UI Package.
+"""REPRIGHT AI Authentication UI Package.
 
 Provides modern, theme-consistent login, registration, and guest access interfaces.
 """

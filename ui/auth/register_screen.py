@@ -1,4 +1,4 @@
-"""TRUFORM AI - Athlete Registration Screen.
+"""REPRIGHT AI - Athlete Registration Screen.
 
 Presentation-grade registration interface consistent with Midnight Navy / Deep Teal theme.
 Collects athlete credentials and physical baseline metrics.
@@ -55,7 +55,7 @@ class RegisterFrame(ctk.CTkFrame):
 
         title = ctk.CTkLabel(
             header_frame,
-            text="Create TruForm Profile",
+            text="Create RepRight Profile",
             font=ctk.CTkFont(size=theme.FONT_SECTION_HEADER[1] + 4, weight="bold"),
             text_color=theme.COLOR_TEXT_PRIMARY
         )

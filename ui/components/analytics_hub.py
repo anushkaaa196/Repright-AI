@@ -1,4 +1,4 @@
-"""Advanced Performance Analytics Hub for TRUFORM AI (Phase 7).
+"""Advanced Performance Analytics Hub for REPRIGHT AI (Phase 7).
 
 Dedicated on-demand modal window providing a tabbed analytics interface:
 - Tab 1: OVERVIEW (KPIs, Session Form Score, Success Rate, Readiness)
@@ -39,7 +39,7 @@ class AnalyticsHubDialog(ctk.CTkToplevel):
         self.on_export_report = on_export_report
 
         # Configure window
-        self.title("TRUFORM AI — Advanced Performance Analytics")
+        self.title("REPRIGHT AI — Advanced Performance Analytics")
         self.geometry("880x640")
         self.minsize(800, 580)
         self.configure(fg_color=theme.COLOR_BG)
@@ -137,7 +137,7 @@ class AnalyticsHubDialog(ctk.CTkToplevel):
 
         ctk.CTkLabel(
             self.footer,
-            text="TRUFORM AI • 60 FPS Pose Trigonometry • Smart India Hackathon Presentation Edition",
+            text="REPRIGHT AI • 60 FPS Pose Trigonometry • Smart India Hackathon Presentation Edition",
             font=ctk.CTkFont(size=theme.FONT_FOOTER[1]),
             text_color=theme.COLOR_TEXT_MUTED
         ).pack(side="left", padx=18)

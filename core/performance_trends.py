@@ -1,4 +1,4 @@
-"""Advanced Performance Trend Analysis Engine for TRUFORM AI.
+"""Advanced Performance Trend Analysis Engine for REPRIGHT AI.
 
 Evaluates intra-session performance trajectories across repetitions:
 calculating delta quality, stability drift, fatigue accumulation, and execution consistency.

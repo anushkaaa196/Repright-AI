@@ -1,4 +1,4 @@
-"""Dynamic Movement Risk Awareness Engine for TRUFORM AI.
+"""Dynamic Movement Risk Awareness Engine for REPRIGHT AI.
 
 Evaluates recurring posture faults and movement instability patterns to generate
 educational risk awareness classifications.

@@ -1,4 +1,4 @@
-"""Live Session Performance Analytics Component for TRUFORM AI (Phase 7).
+"""Live Session Performance Analytics Component for REPRIGHT AI (Phase 7).
 
 Displays a streamlined, clutter-free Compact Session Overview dock on the main dashboard:
 - Card 1: SESSION FORM SCORE (Score % + Status Tier)

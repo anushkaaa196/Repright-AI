@@ -1,4 +1,4 @@
-"""Current Posture vs Ideal Form Comparison Card Component for TRUFORM AI.
+"""Current Posture vs Ideal Form Comparison Card Component for REPRIGHT AI.
 
 Renders side-by-side technical evaluation contrasting live computer vision observations
 against ideal biomechanical targets, highlighting the corrective gap.

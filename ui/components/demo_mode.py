@@ -1,4 +1,4 @@
-"""SIH Grand Finale Presentation Mode for TRUFORM AI.
+"""SIH Grand Finale Presentation Mode for REPRIGHT AI.
 
 Provides a maximized, high-impact presentation HUD designed specifically for
 Smart India Hackathon (SIH) judges and live audience demonstrations.
@@ -17,7 +17,7 @@ class SIHDemoWindow(ctk.CTkToplevel):
 
     def __init__(self, parent, exercise_name: str = "SQUAT", on_close_callback=None):
         super().__init__(parent)
-        self.title("🏆 TRUFORM AI — SIH GRAND FINALE PRESENTATION HUD")
+        self.title("🏆 REPRIGHT AI — SIH GRAND FINALE PRESENTATION HUD")
         self.geometry("1180x780")
         self.configure(fg_color=theme.COLOR_BG)
         self.on_close_callback = on_close_callback
@@ -40,7 +40,7 @@ class SIHDemoWindow(ctk.CTkToplevel):
 
         ctk.CTkLabel(
             title_box,
-            text="🏆 TRUFORM AI",
+            text="🏆 REPRIGHT AI",
             font=ctk.CTkFont(size=18, weight="bold"),
             text_color=theme.COLOR_ACCENT
         ).pack(side="left")

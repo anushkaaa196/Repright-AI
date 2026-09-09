@@ -1,4 +1,4 @@
-"""TRUFORM AI - Hydration Intelligence Engine.
+"""REPRIGHT AI - Hydration Intelligence Engine.
 
 Computes athletic daily water targets and progress tracking:
     Baseline Target (ml) = Body Weight (kg) * 35 ml/kg

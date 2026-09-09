@@ -1,4 +1,4 @@
-"""TRUFORM AI - Verification Script for Report Text Rendering & Label Clipping Fix.
+"""REPRIGHT AI - Verification Script for Report Text Rendering & Label Clipping Fix.
 
 Tests:
 1. Label formatting & normalization (no technical underscores, correct tiers).
@@ -201,7 +201,7 @@ def test_end_to_end_report_generation():
 
 if __name__ == "__main__":
     print("==========================================================")
-    print("TRUFORM AI - REPORT TEXT RENDERING & LABEL VERIFICATION")
+    print("REPRIGHT AI - REPORT TEXT RENDERING & LABEL VERIFICATION")
     print("==========================================================")
     test_label_formatting()
     test_label_wrapping()

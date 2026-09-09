@@ -1,4 +1,4 @@
-"""Analytics Navigation & Quick Launch Component for TRUFORM AI.
+"""Analytics Navigation & Quick Launch Component for REPRIGHT AI.
 
 Provides the horizontal tab navigation bar for the Advanced Analytics Hub and the
 compact quick-selector for the sidebar.

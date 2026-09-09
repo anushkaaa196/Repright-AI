@@ -1,4 +1,4 @@
-"""Session Goal & Challenge Card Component for TRUFORM AI.
+"""Session Goal & Challenge Card Component for REPRIGHT AI.
 
 Displays active workout goals, live repetition progress bars, and achievement badges.
 """
