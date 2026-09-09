@@ -1,4 +1,4 @@
-"""Progress Intelligence Dashboard Dialog for TRUFORM AI.
+"""Progress Intelligence Dashboard Dialog for REPRIGHT AI.
 
 Displays session-to-session performance trajectories, form quality improvements,
 consistency metrics, and multi-workout history without requiring external database dependencies.
@@ -21,7 +21,7 @@ class ProgressDashboardDialog(ctk.CTkToplevel):
         self.summary = self.tracker.get_progress_summary(self.exercise_name)
         self.sessions = self.tracker.get_all_sessions(self.exercise_name)
 
-        self.title("TRUFORM AI - Long-Term Progress Intelligence")
+        self.title("REPRIGHT AI - Long-Term Progress Intelligence")
         self.geometry("740x580")
         self.minsize(660, 480)
         self.configure(fg_color=theme.COLOR_BG_DARK)

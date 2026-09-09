@@ -1,4 +1,4 @@
-"""Adaptive Real-Time Coaching Intensity Engine for TRUFORM AI.
+"""Adaptive Real-Time Coaching Intensity Engine for REPRIGHT AI.
 
 Dynamically modulates the AI coach's communication intensity between CALM, GUIDED,
 and URGENT modes based on live stability, form fatigue, and posture risk.

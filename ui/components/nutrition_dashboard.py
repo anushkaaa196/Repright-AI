@@ -1,4 +1,4 @@
-"""TRUFORM AI - Nutrition & Diet Intelligence Dashboard.
+"""REPRIGHT AI - Nutrition & Diet Intelligence Dashboard.
 
 Displays athlete dietary calculations, daily macronutrient targets,
 interactive hydration logging, Indian-adapted meal plans, and post-workout recovery insights.
@@ -28,7 +28,7 @@ class NutritionDashboardDialog(ctk.CTkToplevel):
         self.on_close_callback = on_close_callback
         self.nutrition_service = nutrition_service or NutritionService()
 
-        self.title("TRUFORM AI — Personalized Nutrition & Diet Intelligence")
+        self.title("REPRIGHT AI — Personalized Nutrition & Diet Intelligence")
         self.geometry("1000x740")
         self.minsize(880, 640)
         self.configure(fg_color=theme.COLOR_BG_DARK)
@@ -158,8 +158,8 @@ class NutritionDashboardDialog(ctk.CTkToplevel):
         )
         badge.pack(anchor="w", pady=(0, 2))
 
-        user_name = self.user.name if self.user else "TruForm Athlete"
-        user_email = self.user.email if self.user else "athlete@truform.ai"
+        user_name = self.user.name if self.user else "RepRight Athlete"
+        user_email = self.user.email if self.user else "athlete@repright.ai"
 
         name_lbl = ctk.CTkLabel(
             left,

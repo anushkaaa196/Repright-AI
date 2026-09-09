@@ -1,4 +1,4 @@
-"""AI Session Summary Modal Dialog Component for TRUFORM AI.
+"""AI Session Summary Modal Dialog Component for REPRIGHT AI.
 
 Displays comprehensive post-workout debriefing: verified repetition counts, accuracy score,
 strengths, targeted improvement areas, next session goal, movement intelligence telemetry,
@@ -60,7 +60,7 @@ class SessionSummaryDialog(ctk.CTkToplevel):
         )
 
         # 3. Configure Toplevel Window
-        self.title("TRUFORM AI - Session Performance Intelligence & Debrief")
+        self.title("REPRIGHT AI - Session Performance Intelligence & Debrief")
         self.geometry("1100x750")
         self.minsize(850, 620)
         self.configure(fg_color=theme.COLOR_BG_DARK)

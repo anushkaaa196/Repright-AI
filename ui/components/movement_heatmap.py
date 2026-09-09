@@ -1,4 +1,4 @@
-"""Movement Consistency Heatmap Matrix Component for TRUFORM AI.
+"""Movement Consistency Heatmap Matrix Component for REPRIGHT AI.
 
 Displays a compact, cyber-styled 2D matrix visualizing execution consistency
 across biomechanical dimensions for recent repetitions.

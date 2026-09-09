@@ -30,7 +30,7 @@ class ExerciseLibraryDialog(ctk.CTkToplevel):
         self.current_exercise = current_exercise.upper().strip()
         self.selected_category = "ALL"
 
-        self.title("TRUFORM AI - Exercise Intelligence Library")
+        self.title("REPRIGHT AI - Exercise Intelligence Library")
         self.geometry("820x660")
         self.minsize(720, 520)
         self.configure(fg_color=theme.COLOR_BG_DARK)

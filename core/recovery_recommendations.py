@@ -1,4 +1,4 @@
-"""Smart Recovery & Rest Recommendations Engine for TRUFORM AI.
+"""Smart Recovery & Rest Recommendations Engine for REPRIGHT AI.
 
 Generates educational rest intervals, posture resetting drills, and recovery pacing
 based on form fatigue, stability scores, and correction frequency.

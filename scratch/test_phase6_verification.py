@@ -1,4 +1,4 @@
-"""Phase 6 Comprehensive Verification & Test Suite for TRUFORM AI.
+"""Phase 6 Comprehensive Verification & Test Suite for REPRIGHT AI.
 
 Validates all 18 requirements:
 1. Movement phase detection (SQUAT, DEADLIFT, BICEP_CURL)
@@ -326,7 +326,7 @@ def test_main_import():
 
 if __name__ == "__main__":
     print("==================================================")
-    print("  TRUFORM AI — PHASE 6 VERIFICATION SUITE")
+    print("  REPRIGHT AI — PHASE 6 VERIFICATION SUITE")
     print("==================================================")
     test_movement_phases()
     test_stability_intelligence()

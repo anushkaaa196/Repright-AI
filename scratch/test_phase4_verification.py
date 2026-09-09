@@ -1,4 +1,4 @@
-"""Automated Verification Suite for TRUFORM AI - Phase 4.
+"""Automated Verification Suite for REPRIGHT AI - Phase 4.
 
 Tests:
 1. Exercise Registry & Scalable Capability Architecture (Active vs Guided)

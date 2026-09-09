@@ -1,4 +1,4 @@
-"""Session Goals & Challenges System for TRUFORM AI.
+"""Session Goals & Challenges System for REPRIGHT AI.
 
 Provides goal targets, live progress evaluation, and milestone achievements
 based strictly on real telemetry (clean reps and form accuracy).

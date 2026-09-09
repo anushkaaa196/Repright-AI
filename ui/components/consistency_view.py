@@ -1,4 +1,4 @@
-"""Dedicated Movement Consistency Matrix View for TRUFORM AI.
+"""Dedicated Movement Consistency Matrix View for REPRIGHT AI.
 
 Displays the 5-dimension repetition consistency heatmap, overall consistency score,
 and AI-generated biomechanical stability observations on demand.

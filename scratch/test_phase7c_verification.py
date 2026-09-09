@@ -1,4 +1,4 @@
-"""TRUFORM AI - Phase 7C Verification & Regression Test Suite.
+"""REPRIGHT AI - Phase 7C Verification & Regression Test Suite.
 
 Comprehensive 22-test automated verification suite covering:
 - Database tables (nutrition_profiles, nutrition_plans, hydration_logs)

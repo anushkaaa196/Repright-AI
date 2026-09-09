@@ -1,4 +1,4 @@
-"""Dedicated Form Quality Trend View for TRUFORM AI.
+"""Dedicated Form Quality Trend View for REPRIGHT AI.
 
 Displays an enlarged interactive accuracy trendline canvas, session trajectory indicators
 (IMPROVING / STABLE / DECLINING), and historical progression analytics on demand.

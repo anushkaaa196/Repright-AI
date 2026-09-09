@@ -1,4 +1,4 @@
-"""TRUFORM AI - Workout Recovery Nutrition Intelligence.
+"""REPRIGHT AI - Workout Recovery Nutrition Intelligence.
 
 Analyzes telemetry from completed workout sessions (duration, volume, fatigue, stability)
 to provide personalized, non-medical post-workout nutritional recommendations.

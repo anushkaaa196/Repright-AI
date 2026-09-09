@@ -1,4 +1,4 @@
-"""Verification test suite for TRUFORM AI Session Summary Dialog & Debrief Window Fix.
+"""Verification test suite for REPRIGHT AI Session Summary Dialog & Debrief Window Fix.
 
 Tests 12 critical scenarios:
 1. Normal workout with valid data
@@ -25,18 +25,18 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from ui import theme
 from ui.components.session_summary import SessionSummaryDialog
-from ui.app import AIWorkoutUI as TruFormApp
+from ui.app import AIWorkoutUI as RepRightApp
 from backend.engine import WorkoutEngine
 from core.rep_history import RepHistoryTracker
 
 
 def run_all_tests():
     print("==================================================")
-    print("  TRUFORM AI — SESSION SUMMARY FIX VERIFICATION  ")
+    print("  REPRIGHT AI — SESSION SUMMARY FIX VERIFICATION  ")
     print("==================================================")
 
-    # Initialize headless TruFormApp
-    app = TruFormApp()
+    # Initialize headless RepRightApp
+    app = RepRightApp()
     app.withdraw()
 
     # ----------------------------------------------------
@@ -53,7 +53,7 @@ def run_all_tests():
     }
     dlg1 = SessionSummaryDialog(app, exercise_name="SQUAT", stats=stats_normal, duration_seconds=95)
     app.update_idletasks()
-    assert dlg1.title() == "TRUFORM AI - Session Performance Intelligence & Debrief"
+    assert dlg1.title() == "REPRIGHT AI - Session Performance Intelligence & Debrief"
     assert len(dlg1.body.winfo_children()) >= 4, f"Expected >=4 sections, got {len(dlg1.body.winfo_children())}"
     print(f"✓ Normal workout rendered {len(dlg1.body.winfo_children())} content sections successfully.")
     dlg1.destroy()

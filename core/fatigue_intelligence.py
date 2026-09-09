@@ -1,4 +1,4 @@
-"""Fatigue & Form Degradation Detection Engine for TRUFORM AI.
+"""Fatigue & Form Degradation Detection Engine for REPRIGHT AI.
 
 Performs explainable, heuristic estimation of movement form degradation over time.
 Analyzes multi-repetition score trajectories, rising instability, range-of-motion decay,

@@ -1,4 +1,4 @@
-"""TRUFORM AI - Nutrition & Lifestyle Profile Dialog.
+"""REPRIGHT AI - Nutrition & Lifestyle Profile Dialog.
 
 Enables athletes to configure nutritional parameters (age, biological sex, activity level,
 dietary preferences, and food allergies/restrictions) without duplicating Phase 7A bio metrics.
@@ -32,7 +32,7 @@ class NutritionProfileDialog(ctk.CTkToplevel):
         self.on_profile_updated = on_profile_updated
         self.nutrition_service = nutrition_service or NutritionService()
 
-        self.title("TRUFORM AI — Nutrition Profile Settings")
+        self.title("REPRIGHT AI — Nutrition Profile Settings")
         self.geometry("520x660")
         self.minsize(460, 580)
         self.configure(fg_color=theme.COLOR_BG_DARK)

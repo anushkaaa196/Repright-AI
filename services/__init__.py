@@ -1,7 +1,7 @@
-"""TRUFORM AI Services Layer.
+"""REPRIGHT AI Services Layer.
 
 Provides authentication services, security hashing, session tracking,
-and business logic for the TruForm AI fitness intelligence platform.
+and business logic for the REPRIGHT AI fitness intelligence platform.
 """
 
 from services.auth_service import AuthService, hash_password, verify_password

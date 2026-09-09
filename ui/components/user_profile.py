@@ -1,4 +1,4 @@
-"""TRUFORM AI - Athlete Profile Editor Dialog.
+"""REPRIGHT AI - Athlete Profile Editor Dialog.
 
 Allows the user to inspect and update demographic measurements, athletic parameters,
 and training objectives with real-time BMI estimation.
@@ -27,7 +27,7 @@ class UserProfileDialog(ctk.CTkToplevel):
         self.on_profile_updated = on_profile_updated
         self.auth_service = auth_service or AuthService()
 
-        self.title("TRUFORM AI — Athlete Profile Settings")
+        self.title("REPRIGHT AI — Athlete Profile Settings")
         self.geometry("480x560")
         self.resizable(False, False)
         self.configure(fg_color=theme.COLOR_BG_DARK)
@@ -85,7 +85,7 @@ class UserProfileDialog(ctk.CTkToplevel):
             text_color=theme.COLOR_TEXT_MUTED,
             corner_radius=8
         )
-        self.email_entry.insert(0, self.user.email if self.user else "guest@truform.ai")
+        self.email_entry.insert(0, self.user.email if self.user else "guest@repright.ai")
         self.email_entry.configure(state="disabled")
         self.email_entry.pack(fill="x", pady=(0, 10))
 

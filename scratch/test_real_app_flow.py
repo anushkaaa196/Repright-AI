@@ -1,7 +1,7 @@
-"""End-to-End Real Application Workflow Test for TRUFORM AI.
+"""End-to-End Real Application Workflow Test for REPRIGHT AI.
 
 Validates the full interactive lifecycle:
-START APPLICATION -> SHOW LOGIN SCREEN -> ALLOW REGISTRATION -> ALLOW LOGIN -> OPEN MAIN TRUFORM AI DASHBOARD
+START APPLICATION -> SHOW LOGIN SCREEN -> ALLOW REGISTRATION -> ALLOW LOGIN -> OPEN MAIN REPRIGHT AI DASHBOARD
 Also verifies user identity reflection in the sidebar, user dashboard opening, and core controls.
 """
 
@@ -24,7 +24,7 @@ from ui.app import AIWorkoutUI
 
 def test_real_app_flow():
     print("=" * 70)
-    print("  TRUFORM AI — REAL APPLICATION STARTUP & AUTH FLOW VERIFICATION")
+    print("  REPRIGHT AI — REAL APPLICATION STARTUP & AUTH FLOW VERIFICATION")
     print("=" * 70)
 
     # 1. Initialize Database
@@ -72,7 +72,7 @@ def test_real_app_flow():
 
     # 4. Perform Registration through UI form
     print("\n[STEP 4] Submitting New Athlete Profile via Registration Form...")
-    test_email = f"marcus_{int(time.time())}@truform.ai"
+    test_email = f"marcus_{int(time.time())}@repright.ai"
     auth_window.register_view.name_entry.delete(0, "end")
     auth_window.register_view.name_entry.insert(0, "Marcus Vance")
 
@@ -123,8 +123,8 @@ def test_real_app_flow():
     # Simulate AuthWindow destruction and triggering main app
     auth_window._on_auth_success(current_user)
 
-    # 6. Verify Main TRUFORM AI Application Dashboard
-    print("\n[STEP 6] Verifying Main TRUFORM AI Dashboard Launch...")
+    # 6. Verify Main REPRIGHT AI Application Dashboard
+    print("\n[STEP 6] Verifying Main REPRIGHT AI Dashboard Launch...")
     assert len(app_instance) == 1, "Main application instance not started."
     app = app_instance[0]
     app.update_idletasks()

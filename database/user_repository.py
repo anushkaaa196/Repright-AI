@@ -1,4 +1,4 @@
-"""TRUFORM AI - User Repository.
+"""REPRIGHT AI - User Repository.
 
 Data Access Object for User authentication, profile configuration, and credentials.
 """

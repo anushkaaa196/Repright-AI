@@ -1,4 +1,4 @@
-"""TRUFORM AI - User Session Management.
+"""REPRIGHT AI - User Session Management.
 
 Thread-safe Singleton managing the currently authenticated athlete session,
 profile event dispatching, and guest mode fallback.
@@ -84,7 +84,7 @@ class UserSession:
         if not user:
             from services.auth_service import hash_password
             user = user_repo.create_user(
-                name="TruForm Athlete",
+                name="RepRight Athlete",
                 email=guest_email,
                 password_hash=hash_password("athlete123"),
                 height_cm=175.0,

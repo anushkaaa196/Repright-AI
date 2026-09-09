@@ -1,4 +1,4 @@
-"""TRUFORM AI - Macronutrient Intelligence Engine.
+"""REPRIGHT AI - Macronutrient Intelligence Engine.
 
 Computes mathematically balanced, goal-aligned daily targets for Protein, Carbohydrates,
 and Healthy Fats with guaranteed internal caloric consistency:

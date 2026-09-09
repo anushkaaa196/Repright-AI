@@ -1,4 +1,4 @@
-"""AI Workout Readiness Intelligence Engine for TRUFORM AI.
+"""AI Workout Readiness Intelligence Engine for REPRIGHT AI.
 
 Evaluates observable pre-workout conditions to generate an objective AI Workout Readiness Score.
 Analyzes camera frame availability, keypoint detection confidence, full-body framing,

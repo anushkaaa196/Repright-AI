@@ -65,7 +65,7 @@ class AIWorkoutUI(ctk.CTk):
 
         theme.setup_theme()
 
-        self.title("TRUFORM AI - Real-Time Biomechanics & Exercise Form Learning Platform")
+        self.title("REPRIGHT AI - Real-Time Biomechanics & Exercise Form Learning Platform")
         self.geometry("1400x890")
         self.minsize(1140, 720)
         self.configure(fg_color=theme.COLOR_BG_DARK)
@@ -602,18 +602,18 @@ class AIWorkoutUI(ctk.CTk):
                 session_trajectory=trajectory,
                 rep_records=rep_records
             )
-            print(f"[TRUFORM DB] Workout session #{session_id} saved for {user.name} (user_id={user.id})")
+            print(f"[REPRIGHT DB] Workout session #{session_id} saved for {user.name} (user_id={user.id})")
 
             # Phase 7C: Record post-workout recovery nutrition insight
             try:
                 from services.nutrition_service import NutritionService
                 NutritionService().record_workout_recovery_insight(user.id, session_data)
             except Exception as nut_err:
-                print(f"[TRUFORM NUTRITION] Post-workout recovery cache note: {nut_err}")
+                print(f"[REPRIGHT NUTRITION] Post-workout recovery cache note: {nut_err}")
 
             return session_id
         except Exception as e:
-            print(f"[TRUFORM DB ERROR] Failed to persist workout session: {e}")
+            print(f"[REPRIGHT DB ERROR] Failed to persist workout session: {e}")
             return None
 
     def _open_user_dashboard(self):

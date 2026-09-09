@@ -1,4 +1,4 @@
-"""Personalized AI Improvement Plan Component for TRUFORM AI.
+"""Personalized AI Improvement Plan Component for REPRIGHT AI.
 
 Displays the 6-part deterministic training plan (Strength, Focus, Why It Matters,
 Next Session Goal, Coaching Cue, Recommended Practice) as both an embedded card and modal dialog.
@@ -122,7 +122,7 @@ class PersonalizedPlanDialog(ctk.CTkToplevel):
 
     def __init__(self, master, exercise_name: str, **kwargs):
         super().__init__(master, **kwargs)
-        self.title("TRUFORM AI - Personalized AI Improvement Plan")
+        self.title("REPRIGHT AI - Personalized AI Improvement Plan")
         self.geometry("640x560")
         self.minsize(560, 480)
         self.configure(fg_color=theme.COLOR_BG_DARK)

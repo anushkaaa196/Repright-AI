@@ -1,4 +1,4 @@
-"""TRUFORM AI - Calorie & Energy Expenditure Engine.
+"""REPRIGHT AI - Calorie & Energy Expenditure Engine.
 
 Calculates Body Mass Index (BMI), Basal Metabolic Rate (BMR using Mifflin-St Jeor),
 Total Daily Energy Expenditure (TDEE), and goal-adjusted daily caloric targets.

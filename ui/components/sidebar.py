@@ -100,7 +100,7 @@ class SidebarFrame(ctk.CTkFrame):
 
         self.logo_label = ctk.CTkLabel(
             self.brand_frame,
-            text="TRUFORM AI",
+            text="REPRIGHT AI",
             font=ctk.CTkFont(size=theme.FONT_BRAND[1], weight=theme.FONT_BRAND[2]),
             text_color=theme.COLOR_TEXT_PRIMARY
         )
@@ -427,7 +427,7 @@ class SidebarFrame(ctk.CTkFrame):
         # Footer indicator
         self.footer_label = ctk.CTkLabel(
             self.controls_frame,
-            text="TRUFORM AI • Performance Analytics",
+            text="REPRIGHT AI • Performance Analytics",
             font=ctk.CTkFont(size=theme.FONT_FOOTER[1]),
             text_color=theme.COLOR_TEXT_MUTED,
             justify="center"

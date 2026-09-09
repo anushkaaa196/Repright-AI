@@ -1,4 +1,4 @@
-"""Current Posture vs Ideal Form Comparison Engine for TRUFORM AI.
+"""Current Posture vs Ideal Form Comparison Engine for REPRIGHT AI.
 
 Performs real-time comparison between live AI computer vision observations and
 ideal biomechanical reference targets, identifying the precise technical gap.

@@ -1,4 +1,4 @@
-"""Biomechanical Performance Breakdown Component for TRUFORM AI.
+"""Biomechanical Performance Breakdown Component for REPRIGHT AI.
 
 Displays multi-dimensional performance scores with progress bars, adapting labels per exercise.
 For Guided exercises, cleanly communicates 'Reference Biomechanical Targets' instead of live scores.

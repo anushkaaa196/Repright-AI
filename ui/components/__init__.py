@@ -1,4 +1,4 @@
-"""UI components package for TRUFORM AI."""
+"""UI components package for REPRIGHT AI."""
 
 from .sidebar import SidebarFrame
 from .viewport import ViewportFrame

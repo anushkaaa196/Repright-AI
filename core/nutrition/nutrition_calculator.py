@@ -1,4 +1,4 @@
-"""TRUFORM AI - Unified Nutrition Intelligence Calculator.
+"""REPRIGHT AI - Unified Nutrition Intelligence Calculator.
 
 Orchestrates BMI, BMR (Mifflin-St Jeor), TDEE, caloric targets, macronutrient balance,
 Indian-adapted meal recommendations, and daily hydration estimates.

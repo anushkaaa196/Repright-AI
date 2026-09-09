@@ -1,4 +1,4 @@
-"""Personalized AI Improvement Engine for TRUFORM AI.
+"""Personalized AI Improvement Engine for REPRIGHT AI.
 
 Synthesizes rep history telemetry, common biomechanical faults, and dimensional strengths
 to generate deterministic, explainable, and actionable personal training plans.

@@ -79,7 +79,7 @@ def run_tests():
     # Test rendering dummy gym card
     dummy_gym = {
         "id": 12345,
-        "name": "TruForm Test Athletic Club",
+        "name": "RepRight Test Athletic Club",
         "lat": 28.4790,
         "lon": 77.5090,
         "distance_km": 0.85,

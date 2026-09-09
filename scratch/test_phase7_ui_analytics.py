@@ -1,4 +1,4 @@
-"""Automated Verification Suite for TRUFORM AI Phase 7.
+"""Automated Verification Suite for REPRIGHT AI Phase 7.
 
 Validates all 18 required test criteria:
 1. Main dashboard loads cleanly without cluttered default widgets.
@@ -46,7 +46,7 @@ from core.exercise_registry import is_guided_exercise, is_active_ai_supported
 
 def run_phase7_tests():
     print("==================================================")
-    print("  TRUFORM AI — PHASE 7 VERIFICATION SUITE")
+    print("  REPRIGHT AI — PHASE 7 VERIFICATION SUITE")
     print("  Clean Dashboard + On-Demand Intelligent Analytics")
     print("==================================================")
 

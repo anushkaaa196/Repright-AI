@@ -1,4 +1,4 @@
-"""TRUFORM AI - Personalized Meal Recommendation Engine.
+"""REPRIGHT AI - Personalized Meal Recommendation Engine.
 
 Generates practical, culturally familiar Indian meal plans adapted to:
 - Dietary Preference (Vegetarian, Non-Vegetarian, Vegan, Eggetarian)

@@ -1,4 +1,4 @@
-"""Nearby Gym & Fitness Center Locator Dialog for TRUFORM AI.
+"""Nearby Gym & Fitness Center Locator Dialog for REPRIGHT AI.
 
 Displays device location, nearby verified fitness facilities with real-time distance calculations,
 search radius controls, manual city geocoding, and 1-click Google Maps directions.
@@ -37,7 +37,7 @@ class GymLocatorDialog(ctk.CTkToplevel):
         self._is_loading = False
 
         # Configure Toplevel Window
-        self.title("TRUFORM AI - Nearby Gym & Fitness Center Locator")
+        self.title("REPRIGHT AI - Nearby Gym & Fitness Center Locator")
         self.geometry("960x700")
         self.minsize(820, 580)
         self.configure(fg_color=theme.COLOR_BG_DARK)
