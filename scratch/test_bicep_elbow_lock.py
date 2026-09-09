@@ -124,10 +124,12 @@ def run_tests():
             msg = m
 
     assert rep_counted is True
-    assert tracker.reps == 2
-    assert "Form Warning" in msg or "Unpinned" in msg
-    print(f"Rep completed with posture warning: '{msg}'")
-    print("✓ TEST 3 PASSED: Unpinned curl triggers posture fault and warning message.")
+    assert tracker.reps == 1, f"Clean reps should NOT increase on wrong form! Got {tracker.reps}"
+    assert tracker.failed_reps == 1, f"Expected 1 failed rep, got {tracker.failed_reps}"
+    assert tracker.last_rep_clean is False, "Expected last_rep_clean == False"
+    assert "NO REP" in msg and "Unpinned" in msg
+    print(f"Rep rejected with posture warning: '{msg}'")
+    print("✓ TEST 3 PASSED: Unpinned curl is rejected (no clean rep counted) with posture warning.")
 
     # --------------------------------------------------------------------------
     # TEST 4: Posture Feedback Classification
@@ -146,9 +148,7 @@ def run_tests():
     assert "ribcage" in c_warn["action"].lower() or "elbows" in c_warn["action"].lower()
 
     # Rep completed with warning:
-    c_rep_warn = classify_posture_feedback("BICEP_CURL", "Left Arm Rep #2 (Form Warning: Unpinned Elbow)", "#FF9100")
-    assert c_rep_warn["category"] == "WARNING"
-    assert c_rep_warn["status_label"] == "ADJUST FORM"
+    c_rep_warn = classify_posture_feedback("BICEP_CURL", "NO REP: Left Arm Unpinned Elbow (Keep elbows pinned at sides)", "#FF1744")
     assert c_rep_warn["body_focus"] == "ELBOWS"
     print("✓ TEST 4 PASSED: Feedback messages correctly map to ADJUST FORM / ELBOWS.")
 

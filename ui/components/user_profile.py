@@ -10,6 +10,7 @@ from ui import theme
 from services.auth_service import AuthService, VALID_FITNESS_GOALS
 from services.user_session import UserSession
 from database.models import User
+from core.units import parse_height_to_cm, convert_height_between_units
 
 
 class UserProfileDialog(ctk.CTkToplevel):
@@ -110,7 +111,7 @@ class UserProfileDialog(ctk.CTkToplevel):
 
         ctk.CTkLabel(
             stats_frame,
-            text="HEIGHT (CM)",
+            text="HEIGHT",
             font=ctk.CTkFont(size=10, weight="bold"),
             text_color=theme.COLOR_TEXT_MUTED
         ).grid(row=0, column=0, sticky="w", padx=(0, 6), pady=(0, 2))
@@ -122,8 +123,15 @@ class UserProfileDialog(ctk.CTkToplevel):
             text_color=theme.COLOR_TEXT_MUTED
         ).grid(row=0, column=1, sticky="w", padx=(6, 0), pady=(0, 2))
 
+        # Height entry with unit selector (cm / ft)
+        height_box = ctk.CTkFrame(stats_frame, fg_color="transparent")
+        height_box.grid(row=1, column=0, sticky="ew", padx=(0, 6))
+        height_box.grid_columnconfigure(0, weight=1)
+        height_box.grid_columnconfigure(1, weight=0)
+
         self.height_entry = ctk.CTkEntry(
-            stats_frame,
+            height_box,
+            placeholder_text="e.g. 175",
             height=36,
             fg_color=theme.COLOR_CARD_BG,
             border_color=theme.COLOR_BORDER,
@@ -131,8 +139,27 @@ class UserProfileDialog(ctk.CTkToplevel):
             corner_radius=8
         )
         if self.user and self.user.height_cm:
-            self.height_entry.insert(0, str(self.user.height_cm))
-        self.height_entry.grid(row=1, column=0, sticky="ew", padx=(0, 6))
+            h_init = int(self.user.height_cm) if self.user.height_cm.is_integer() else self.user.height_cm
+            self.height_entry.insert(0, str(h_init))
+        self.height_entry.grid(row=0, column=0, sticky="ew", padx=(0, 4))
+
+        self._current_height_unit = "cm"
+        self.height_unit_opt = ctk.CTkOptionMenu(
+            height_box,
+            values=["cm", "ft"],
+            width=64,
+            height=36,
+            fg_color=theme.COLOR_CARD_BG,
+            button_color=theme.COLOR_CARD_ELEVATED,
+            button_hover_color=theme.COLOR_ACCENT,
+            dropdown_fg_color=theme.COLOR_CARD_ELEVATED,
+            dropdown_hover_color=theme.COLOR_ACCENT,
+            text_color=theme.COLOR_TEXT_PRIMARY,
+            corner_radius=8,
+            command=self._on_height_unit_changed
+        )
+        self.height_unit_opt.set("cm")
+        self.height_unit_opt.grid(row=0, column=1, sticky="e")
 
         self.weight_entry = ctk.CTkEntry(
             stats_frame,
@@ -213,6 +240,24 @@ class UserProfileDialog(ctk.CTkToplevel):
         )
         lbl.pack(anchor="w", pady=(0, 2))
 
+    def _on_height_unit_changed(self, new_unit: str):
+        old_unit = getattr(self, "_current_height_unit", "cm")
+        if old_unit == new_unit:
+            return
+
+        current_val = self.height_entry.get().strip()
+        if current_val:
+            converted = convert_height_between_units(current_val, from_unit=old_unit, to_unit=new_unit)
+            self.height_entry.delete(0, "end")
+            self.height_entry.insert(0, converted)
+
+        if new_unit == "cm":
+            self.height_entry.configure(placeholder_text="e.g. 175")
+        else:
+            self.height_entry.configure(placeholder_text="e.g. 5'9\"")
+
+        self._current_height_unit = new_unit
+
     def _handle_save(self):
         if not self.user:
             self.destroy()
@@ -223,8 +268,40 @@ class UserProfileDialog(ctk.CTkToplevel):
         w_str = self.weight_entry.get().strip()
         goal = self.goal_opt.get()
 
-        h_val = float(h_str) if h_str else None
-        w_val = float(w_str) if w_str else None
+        h_val = None
+        if h_str:
+            unit = self.height_unit_opt.get()
+            h_val = parse_height_to_cm(h_str, unit)
+            if h_val is None or h_val <= 0:
+                hint = "175" if unit == "cm" else "5'9\""
+                self.feedback_label.configure(
+                    text=f"Invalid height. Please enter a valid number (e.g. {hint}).",
+                    text_color=theme.COLOR_ALERT
+                )
+                return
+            if h_val < 50 or h_val > 260:
+                self.feedback_label.configure(
+                    text="Height must be between 50 cm and 260 cm (approx 1'8\" - 8'6\").",
+                    text_color=theme.COLOR_ALERT
+                )
+                return
+
+        w_val = None
+        if w_str:
+            try:
+                w_val = float(w_str)
+                if w_val <= 0 or w_val > 350:
+                    self.feedback_label.configure(
+                        text="Weight must be between 10 kg and 350 kg.",
+                        text_color=theme.COLOR_ALERT
+                    )
+                    return
+            except ValueError:
+                self.feedback_label.configure(
+                    text="Invalid weight. Please enter a valid number (e.g. 72.5).",
+                    text_color=theme.COLOR_ALERT
+                )
+                return
 
         success, msg, updated_user = self.auth_service.update_profile(
             user_id=self.user.id,

@@ -62,12 +62,48 @@ def verify_password(password: str, hashed: str) -> bool:
         return False
 
 
+COMMON_DOMAIN_TYPOS = {
+    "gmai.com": "gmail.com",
+    "gamil.com": "gmail.com",
+    "gmial.com": "gmail.com",
+    "gmaill.com": "gmail.com",
+    "gmaul.com": "gmail.com",
+    "gmaik.com": "gmail.com",
+    "yaho.com": "yahoo.com",
+    "yahooo.com": "yahoo.com",
+    "hotmial.com": "hotmail.com",
+    "hotmaill.com": "hotmail.com",
+    "outlok.com": "outlook.com",
+    "outloo.com": "outlook.com",
+}
+
+
+def check_email_format(email: str) -> Tuple[bool, str]:
+    """Validates email format and detects common domain typos."""
+    if not email or "@" not in email:
+        return False, "Please enter a valid email address (e.g. athlete@example.com)."
+    clean = email.strip().lower()
+    pattern = r"^[\w\.\+\-]+@[\w\-]+(\.[\w\-]+)+$"
+    if not re.match(pattern, clean):
+        return False, "Please enter a valid email address (e.g. athlete@example.com)."
+
+    parts = clean.split("@")
+    if len(parts) == 2:
+        domain = parts[1]
+        if domain in COMMON_DOMAIN_TYPOS:
+            suggested = COMMON_DOMAIN_TYPOS[domain]
+            return False, f"Invalid email domain '@{domain}'. Did you mean '@{suggested}'?"
+        tld = domain.split(".")[-1]
+        if len(tld) < 2:
+            return False, "Invalid email domain extension."
+
+    return True, ""
+
+
 def validate_email(email: str) -> bool:
     """Performs basic email format validation."""
-    if not email or "@" not in email:
-        return False
-    pattern = r"^[\w\.\+\-]+@[\w\-]+(\.[\w\-]+)+$"
-    return bool(re.match(pattern, email.strip()))
+    valid, _ = check_email_format(email)
+    return valid
 
 
 class AuthService:
@@ -92,8 +128,9 @@ class AuthService:
         if not name_clean or len(name_clean) < 2:
             return False, "Full name must be at least 2 characters.", None
 
-        if not validate_email(email_clean):
-            return False, "Please enter a valid email address.", None
+        is_valid, email_err = check_email_format(email_clean)
+        if not is_valid:
+            return False, email_err, None
 
         if not password or len(password) < 6:
             return False, "Password must be at least 6 characters.", None

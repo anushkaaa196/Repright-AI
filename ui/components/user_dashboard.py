@@ -12,6 +12,7 @@ from database.models import User
 from database.workout_repository import WorkoutRepository
 from ui.components.workout_history import WorkoutHistoryView
 from ui.components.user_profile import UserProfileDialog
+from core.units import format_height
 
 
 class UserDashboardDialog(ctk.CTkToplevel):
@@ -174,7 +175,7 @@ class UserDashboardDialog(ctk.CTkToplevel):
         goal_pill.pack(side="right", padx=(6, 0))
 
         # Physical stats
-        h_val = f"{self.user.height_cm:.0f} cm" if self.user and self.user.height_cm else "—"
+        h_val = format_height(self.user.height_cm) if self.user and self.user.height_cm else "—"
         w_val = f"{self.user.weight_kg:.1f} kg" if self.user and self.user.weight_kg else "—"
         bmi_val = f"BMI {self.user.bmi}" if self.user and self.user.bmi else "—"
         stats_str = f"Height: {h_val}  |  Weight: {w_val}  |  {bmi_val}"

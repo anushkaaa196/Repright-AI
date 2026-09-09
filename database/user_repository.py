@@ -33,17 +33,25 @@ class UserRepository:
         clean_email = email.strip().lower()
         clean_name = name.strip()
 
+        if self.get_user_by_email(clean_email) is not None:
+            raise ValueError(f"An account with email '{clean_email}' already exists.")
+
         conn = self._get_conn()
         try:
             with conn:
-                cursor = conn.execute(
-                    """
-                    INSERT INTO users (name, email, password_hash, height_cm, weight_kg, fitness_goal, created_at, updated_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                    """,
-                    (clean_name, clean_email, password_hash, height_cm, weight_kg, fitness_goal, now, now)
-                )
-                user_id = cursor.lastrowid
+                try:
+                    cursor = conn.execute(
+                        """
+                        INSERT INTO users (name, email, password_hash, height_cm, weight_kg, fitness_goal, created_at, updated_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        (clean_name, clean_email, password_hash, height_cm, weight_kg, fitness_goal, now, now)
+                    )
+                    user_id = cursor.lastrowid
+                except sqlite3.IntegrityError as ie:
+                    if "UNIQUE" in str(ie) and "users.email" in str(ie):
+                        raise ValueError(f"An account with email '{clean_email}' already exists.") from ie
+                    raise
                 return User(
                     id=user_id,
                     name=clean_name,

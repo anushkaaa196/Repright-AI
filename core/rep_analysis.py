@@ -129,6 +129,19 @@ def analyze_repetition(
         strengths.append("Recognized movement turnaround.")
         primary_focus = "Maintain active kinetic chain tension at the bottom; do not pause."
 
+    elif rep_result == "FAILED_POSTURE":
+        is_clean = False
+        overall_score = 52
+        rom_score = 86
+        alignment_score = 45
+        stability_score = 42
+        control_score = 48
+        consistency_score = 50
+        status = "FORM_CORRECTION"
+        issues.append("Biomechanical form fault: Unpinned elbow or excessive momentum.")
+        strengths.append("Attempted movement flexion.")
+        primary_focus = "Keep elbows locked to ribcage and isolate target muscles."
+
     else:
         # Fallback / Generic Rep
         is_clean = False

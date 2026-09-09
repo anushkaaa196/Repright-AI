@@ -10,6 +10,7 @@ from ui import theme
 from services.user_session import UserSession
 from services.nutrition_service import NutritionService
 from database.models import User, NutritionProfile
+from core.units import format_height
 
 
 DIET_PREFERENCES = ["VEGETARIAN", "NON_VEGETARIAN", "VEGAN", "EGGETARIAN"]
@@ -85,7 +86,7 @@ class NutritionProfileDialog(ctk.CTkToplevel):
         subtitle.pack(anchor="w", pady=(2, 0))
 
         # Reused Physical Baseline Summary (Read-Only Pill Banner)
-        h = f"{self.user.height_cm:.0f} cm" if self.user and self.user.height_cm else "175 cm"
+        h = format_height(self.user.height_cm) if self.user and self.user.height_cm else "175 cm (5'9\")"
         w = f"{self.user.weight_kg:.1f} kg" if self.user and self.user.weight_kg else "70.0 kg"
         bmi = f"BMI {self.user.bmi}" if self.user and self.user.bmi else "BMI 22.9"
         goal = self.user.fitness_goal if self.user and self.user.fitness_goal else "GENERAL_FITNESS"

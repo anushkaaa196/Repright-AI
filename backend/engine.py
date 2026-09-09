@@ -50,7 +50,9 @@ class LimbTracker:
         self.calibration_frames = 0
         self.standing_baseline = None
         self.depth_achieved = False
-        self.reps = 0
+        self.reps = 0            # Clean reps strictly
+        self.failed_reps = 0     # Disqualified / form fault reps
+        self.last_rep_clean = True
         self.filter = LowPassFilter(cutoff_samples=5)
         self.current_angle = 180.0
         self.smoothed_angle = 180.0
@@ -63,6 +65,7 @@ class LimbTracker:
         self.is_elbow_locked = True
         self.posture_fault_in_rep = False
         self.has_warned_in_rep = False
+        self.fault_reason = ""
 
     def reset(self):
         """Resets limb tracking state and rep counter."""
@@ -71,6 +74,8 @@ class LimbTracker:
         self.standing_baseline = None
         self.depth_achieved = False
         self.reps = 0
+        self.failed_reps = 0
+        self.last_rep_clean = True
         self.filter.clear()
         self.current_angle = 180.0
         self.smoothed_angle = 180.0
@@ -82,6 +87,7 @@ class LimbTracker:
         self.is_elbow_locked = True
         self.posture_fault_in_rep = False
         self.has_warned_in_rep = False
+        self.fault_reason = ""
 
     def update(
         self,
@@ -134,6 +140,7 @@ class LimbTracker:
                 self.depth_achieved = False
                 self.posture_fault_in_rep = False
                 self.has_warned_in_rep = False
+                self.fault_reason = ""
 
         # Check elbow lock during active curl phases
         if self.state in (1, 2, 3) and cfg.get("check_elbow_lock", True) and raw_shoulder_angle is not None:
@@ -145,6 +152,7 @@ class LimbTracker:
             if self.smoothed_shoulder_angle > max_drift or drift_above_base > 18.0:
                 self.is_elbow_locked = False
                 self.posture_fault_in_rep = True
+                self.fault_reason = "Unpinned Elbow"
             else:
                 self.is_elbow_locked = True
         else:
@@ -157,6 +165,12 @@ class LimbTracker:
                 self.state = 2  # PEAK CONTRACTION
             elif self.standing_baseline is not None and self.smoothed_angle > (self.standing_baseline - 10.0):
                 self.state = 0  # Released without reaching peak
+                self.failed_reps += 1
+                self.last_rep_clean = False
+                self.posture_fault_in_rep = True
+                self.fault_reason = "Incomplete Curl"
+                rep_counted = True
+                msg = f"NO REP: {self.name} Arm Incomplete Range of Motion! Curl to full peak"
 
         # STATE_BOTTOM / PEAK CONTRACTION (2)
         elif self.state == 2:
@@ -170,11 +184,14 @@ class LimbTracker:
             if self.smoothed_angle >= min(up_ref, base_ref):
                 self.state = 0  # Full extension return
                 if self.depth_achieved:
-                    self.reps += 1
                     rep_counted = True
                     if self.posture_fault_in_rep:
-                        msg = f"{self.name} Arm Rep #{self.reps} (Form Warning: Unpinned Elbow)"
+                        self.failed_reps += 1
+                        self.last_rep_clean = False
+                        msg = f"NO REP: {self.name} Arm {self.fault_reason or 'Form Fault'} (Keep elbows pinned at sides)"
                     else:
+                        self.reps += 1
+                        self.last_rep_clean = True
                         msg = f"{self.name} Arm Clean Rep #{self.reps} Counted!"
                 self.depth_achieved = False
 
@@ -217,6 +234,7 @@ class WorkoutEngine:
         self.clean_reps = 0
         self.failed_depth = 0
         self.failed_sitting = 0
+        self.failed_posture = 0
         self.posture_warnings = 0
         self.start_time: Optional[float] = None
 
@@ -235,6 +253,7 @@ class WorkoutEngine:
         self.clean_reps = 0
         self.failed_depth = 0
         self.failed_sitting = 0
+        self.failed_posture = 0
         self.posture_warnings = 0
         self.start_time = time.time()
         self.left_arm.reset()
@@ -242,18 +261,21 @@ class WorkoutEngine:
 
     def get_stats(self) -> Dict[str, Any]:
         """Returns the current telemetry metrics dictionary."""
-        total = self.clean_reps + self.failed_depth + self.failed_sitting
+        total = self.clean_reps + self.failed_depth + self.failed_sitting + self.failed_posture
         acc = int((self.clean_reps / max(total, 1)) * 100) if total > 0 else 100
         return {
             "clean_reps": self.clean_reps,
             "failed_depth": self.failed_depth,
             "failed_sitting": self.failed_sitting,
+            "failed_posture": self.failed_posture,
             "posture_warnings": self.posture_warnings,
             "total_attempts": total,
             "accuracy": acc,
             "start_time": self.start_time,
             "left_arm_reps": self.left_arm.reps,
-            "right_arm_reps": self.right_arm.reps
+            "right_arm_reps": self.right_arm.reps,
+            "left_arm_failed": self.left_arm.failed_reps,
+            "right_arm_failed": self.right_arm.failed_reps
         }
 
     def start(self) -> bool:
@@ -441,19 +463,45 @@ class WorkoutEngine:
                                 self.posture_warnings += 1
                                 arm.has_warned_in_rep = True
 
+                        # Torso stability check for curls (detect cheating body swing / hyperextension)
+                        torso_swing_detected = False
+                        if cfg.get("check_torso", True) and data.get("torso_angle") is not None and active_arms:
+                            max_torso = cfg.get("max_torso_lean_angle", 22.0)
+                            if data["torso_angle"] > max_torso:
+                                torso_swing_detected = True
+                                for arm in active_arms:
+                                    arm.posture_fault_in_rep = True
+                                    arm.fault_reason = "Torso Swing"
+                                    if not arm.has_warned_in_rep:
+                                        self.posture_warnings += 1
+                                        arm.has_warned_in_rep = True
+
                         if l_rep or r_rep:
+                            # Clean reps count strictly valid, non-faulted repetitions
                             self.clean_reps = self.left_arm.reps + self.right_arm.reps
-                            rep_fault = (l_rep and self.left_arm.posture_fault_in_rep) or (r_rep and self.right_arm.posture_fault_in_rep)
-                            if rep_fault:
-                                feedback_msg = l_msg or r_msg or "Rep Counted with Warning: Keep elbows pinned at sides"
-                                feedback_color = "#FF9100"
+
+                            # Determine if any completing arm had a form fault
+                            l_fault = l_rep and (not self.left_arm.last_rep_clean)
+                            r_fault = r_rep and (not self.right_arm.last_rep_clean)
+
+                            if l_fault or r_fault:
+                                fault_arm = self.left_arm if l_fault else self.right_arm
+                                if "Incomplete" in (fault_arm.fault_reason or ""):
+                                    self.failed_depth += 1
+                                else:
+                                    self.failed_posture += 1
+                                feedback_msg = l_msg if l_fault else r_msg
+                                feedback_color = "#FF1744"  # Strong Red Alert
                             else:
                                 feedback_msg = l_msg or r_msg or "Clean Rep Counted!"
-                                feedback_color = "#00E676"
+                                feedback_color = "#00E676"  # Vibrant Green Success
                         else:
                             # Contextual feedback for curls
                             if unpinned_arms:
                                 feedback_msg = "Warning: Keep elbows pinned at sides!"
+                                feedback_color = "#FF9100"
+                            elif torso_swing_detected:
+                                feedback_msg = "Warning: Back Swinging! Stand upright and isolate biceps"
                                 feedback_color = "#FF9100"
                             else:
                                 active_state = max(self.left_arm.state, self.right_arm.state)
@@ -464,7 +512,7 @@ class WorkoutEngine:
                                     feedback_msg = "Curling up... Keep elbows locked to ribcage"
                                     feedback_color = "#00FFC8"
                                 elif active_state == 0:
-                                    feedback_msg = f"Ready! Begin curling. Total Reps: {self.clean_reps}"
+                                    feedback_msg = f"Ready! Begin curling. Total Clean Reps: {self.clean_reps}"
                                     feedback_color = "#00E676"
                                 elif active_state == -1:
                                     feedback_msg = "Calibrating arm position... Hang arms relaxed"
@@ -632,20 +680,20 @@ class WorkoutEngine:
             1
         )
 
-        l_str = f"L: {int(self.left_arm.smoothed_angle)} deg (Reps: {self.left_arm.reps})" if data.get("l_valid") else "L: Not in view"
-        r_str = f"R: {int(self.right_arm.smoothed_angle)} deg (Reps: {self.right_arm.reps})" if data.get("r_valid") else "R: Not in view"
+        l_str = f"L: {int(self.left_arm.smoothed_angle)} deg (Clean: {self.left_arm.reps} | No-Rep: {self.left_arm.failed_reps})" if data.get("l_valid") else "L: Not in view"
+        r_str = f"R: {int(self.right_arm.smoothed_angle)} deg (Clean: {self.right_arm.reps} | No-Rep: {self.right_arm.failed_reps})" if data.get("r_valid") else "R: Not in view"
 
         l_color = (0, 255, 0) if self.left_arm.smoothed_angle <= target else (255, 255, 255)
         r_color = (0, 255, 0) if self.right_arm.smoothed_angle <= target else (255, 255, 255)
 
         cv2.putText(frame, l_str, (25, 56), cv2.FONT_HERSHEY_SIMPLEX, 0.46, l_color, 1)
         cv2.putText(frame, r_str, (250, 56), cv2.FONT_HERSHEY_SIMPLEX, 0.46, r_color, 1)
-        cv2.putText(frame, f"Total Clean Reps: {self.clean_reps}", (25, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.43, (0, 255, 200), 1)
+        cv2.putText(frame, f"Total Clean Reps: {self.clean_reps} | Form Faults: {self.failed_posture}", (25, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.43, (0, 255, 200), 1)
 
         # Elbow Lock / Drift Status Indicator
         both_locked = self.left_arm.is_elbow_locked and self.right_arm.is_elbow_locked
         if both_locked:
-            lock_text = f"Elbows: PINNED TO RIBS | Posture Warnings: {self.posture_warnings}"
+            lock_text = f"Elbows: PINNED TO RIBS | Form Faults: {self.failed_posture}"
             lock_color = (0, 255, 150)
         else:
             fault_sides = []
@@ -653,7 +701,7 @@ class WorkoutEngine:
                 fault_sides.append("L-DRIFT")
             if not self.right_arm.is_elbow_locked:
                 fault_sides.append("R-DRIFT")
-            lock_text = f"Elbows: {' '.join(fault_sides)} (LOCK TO RIBS) | Warns: {self.posture_warnings}"
+            lock_text = f"Elbows: {' '.join(fault_sides)} (LOCK TO RIBS) | Faults: {self.failed_posture}"
             lock_color = (0, 80, 255)
         cv2.putText(frame, lock_text, (25, 92), cv2.FONT_HERSHEY_SIMPLEX, 0.40, lock_color, 1)
 

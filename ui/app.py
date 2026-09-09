@@ -93,6 +93,7 @@ class AIWorkoutUI(ctk.CTk):
         self._last_posture_warnings = 0
         self._last_sitting_fails = 0
         self._last_depth_fails = 0
+        self._last_posture_fails = 0
         self._posture_fault_in_active_rep = False
 
         # Phase 6 Motion Intelligence state
@@ -739,6 +740,7 @@ class AIWorkoutUI(ctk.CTk):
         self._last_posture_warnings = 0
         self._last_sitting_fails = 0
         self._last_depth_fails = 0
+        self._last_posture_fails = 0
         self._posture_fault_in_active_rep = False
         self._last_phase_data = {}
         self._last_stability_data = {}
@@ -814,6 +816,7 @@ class AIWorkoutUI(ctk.CTk):
             curr_warn = stats.get("posture_warnings", 0) if stats else 0
             curr_sitting = stats.get("failed_sitting", 0) if stats else 0
             curr_depth = stats.get("failed_depth", 0) if stats else 0
+            curr_posture_fails = stats.get("failed_posture", 0) if stats else 0
 
             # Detect intra-rep posture warning
             warning_triggered = False
@@ -830,6 +833,8 @@ class AIWorkoutUI(ctk.CTk):
                 rep_completed = True
                 if curr_clean > self._last_clean_reps:
                     rep_result = "CLEAN"
+                elif curr_posture_fails > self._last_posture_fails or self._posture_fault_in_active_rep:
+                    rep_result = "FAILED_POSTURE"
                 elif curr_sitting > self._last_sitting_fails:
                     rep_result = "FAILED_SITTING"
                 else:
@@ -975,6 +980,7 @@ class AIWorkoutUI(ctk.CTk):
                 self._last_total_attempts = curr_total
                 self._last_sitting_fails = curr_sitting
                 self._last_depth_fails = curr_depth
+                self._last_posture_fails = curr_posture_fails
                 self._posture_fault_in_active_rep = False
 
         except Exception as e:

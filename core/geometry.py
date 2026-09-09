@@ -115,6 +115,13 @@ def extract_exercise_data(
         result["r_shoulder_angle"] = r_shoulder_angle
         result["shoulder_angle"] = l_shoulder_angle if l_valid else r_shoulder_angle
 
+        # Torso inclination angle from vertical (to detect excessive backward body swing/momentum cheating)
+        chosen_sh = kpts[5] if l_valid else kpts[6]
+        chosen_hp = l_hip if l_valid else r_hip
+        dx = float(chosen_sh[0] - chosen_hp[0])
+        dy = float(chosen_sh[1] - chosen_hp[1])
+        result["torso_angle"] = abs(float(np.degrees(np.arctan2(dx, -dy))))
+
         if l_valid and r_valid:
             result["side"] = "Both"
         elif l_valid:

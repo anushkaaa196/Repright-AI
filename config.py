@@ -32,6 +32,7 @@ EXERCISE_CONFIGS = {
         "up_thresh": 125.0,          # Full extension lockout return
         "min_calib_angle": 120.0,    # Natural relaxed arm hang calibration
         "check_torso": True,         # Validate upper-body stability
+        "max_torso_lean_angle": 22.0,# Max backward torso lean before flagging cheat curl
         "check_elbow_lock": True,    # Require elbows locked to ribcage
         "max_elbow_drift_angle": 28.0,  # Max allowed upper arm drift (deg) from ribcage
         "check_sitting": False

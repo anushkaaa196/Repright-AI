@@ -243,10 +243,11 @@ def generate_report_image(
     clean_reps = stats.get("clean_reps", 0)
     failed_depth = stats.get("failed_depth", 0)
     failed_sitting = stats.get("failed_sitting", 0)
+    failed_posture = stats.get("failed_posture", 0)
     posture_warnings = stats.get("posture_warnings", 0)
     start_time = stats.get("start_time")
 
-    total = clean_reps + failed_depth + failed_sitting
+    total = stats.get("total_attempts", clean_reps + failed_depth + failed_sitting + failed_posture)
     # Use engine's calculated accuracy if available, else standard fallback
     if "accuracy" in stats and stats["accuracy"] is not None:
         acc = int(stats["accuracy"])
@@ -472,7 +473,8 @@ def generate_report_image(
         ("Total Movement Cycles Attempted", str(total), COLOR_TEXT_PRIMARY),
         ("Incomplete Range of Motion (Failed Depth)", str(failed_depth), COLOR_WARN if failed_depth > 0 else COLOR_TEXT_MUTED),
         ("Passive Sitting / Chair Disqualifications", str(failed_sitting), COLOR_ALERT if failed_sitting > 0 else COLOR_TEXT_MUTED),
-        ("Torso Alignment / Spine Lean Warnings", str(posture_warnings), COLOR_WARN if posture_warnings > 0 else COLOR_TEXT_MUTED)
+        ("Biomechanical Form Faults (No Rep)", str(failed_posture), COLOR_ALERT if failed_posture > 0 else COLOR_TEXT_MUTED),
+        ("Torso Alignment & Posture Warnings", str(posture_warnings), COLOR_WARN if posture_warnings > 0 else COLOR_TEXT_MUTED)
     ]
 
     row_y = r_y0 + 44
