@@ -149,13 +149,13 @@ RepRight-AI/
 Open Terminal, Command Prompt, or VS Code Terminal and run:
 
 ```bash
-git clone https://github.com/anushkaaa196/TruForm-AI.git
+git clone https://github.com/anushkaaa196/Repright-AI.git
 ```
 
 Move into the project directory:
 
 ```bash
-cd TruForm-AI
+cd Repright-AI
 ```
 
 ---
@@ -348,7 +348,7 @@ To contribute:
 # 📬 Repository
 
 🔗 **GitHub:**
-https://github.com/anushkaaa196/TruForm-AI
+https://github.com/anushkaaa196/Repright-AI
 
 ---
 
